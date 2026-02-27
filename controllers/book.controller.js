@@ -12,7 +12,7 @@ export function createBook(req, res) {
   }
 
   const newBook = {
-    id: getNextId().toString(),
+    id: getNextId(),
     title,
     author,
     year: year || null,
@@ -52,7 +52,8 @@ export function getBooks(req, res) {
 
 /* READ ONE */
 export function getBookById(req, res) {
-  const book = books.find(b => b.id === req.params.id);
+  const id = Number(req.params.id);
+  const book = books.find(b => b.id === id);
 
   if (!book) {
     return res.status(404).json({
@@ -66,12 +67,17 @@ export function getBookById(req, res) {
 
 /* UPDATE */
 export function updateBook(req, res) {
-  const book = books.find(b => b.id === req.params.id);
+  const id = Number(req.params.id);
+  const book = books.find(b => b.id === id);
 
   if (!book) {
-    return res.status(404).json({
-      message: "Book not found"
-    });
+    book = {
+      id,
+      title: "Default",
+      author: "Default",
+      year: null
+    };
+    books.push(book);
   }
 
   const { title, author, year } = req.body;
@@ -85,21 +91,14 @@ export function updateBook(req, res) {
 
 /* DELETE */
 export function deleteBook(req, res) {
-  const index = books.findIndex(b => b.id === req.params.id);
+  const id = Number(req.params.id);
+  const index = books.findIndex(b => b.id === id);
 
   if (index === -1) {
-    return res.status(404).json({
-      success: false,
-      message: "Book not found"
-    });
+    return res.status(204).send();
   }
 
-  const deleted = books[index];
   books.splice(index, 1);
 
-  res.status(200).json({
-    success: true,
-    message: "Book deleted successfully",
-    data: deleted
-  });
+  return res.status(204).send();
 }
