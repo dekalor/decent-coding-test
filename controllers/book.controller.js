@@ -1,4 +1,4 @@
-import { books, getNextId } from "../data/store.js";
+import { books, getNextId } from "../data/stores.js";
 
 /* CREATE */
 export function createBook(req, res) {
