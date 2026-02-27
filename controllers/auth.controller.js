@@ -21,7 +21,7 @@ export function generateToken(req, res) {
 
   res.json({
     success: true,
-    access_token,
+    token,
     expiresIn: JWT_EXPIRES_IN
   });
 }
