@@ -1,27 +1,29 @@
 import jwt from "jsonwebtoken";
 import { JWT_SECRET, JWT_EXPIRES_IN } from "../config/jwt.js";
 
-export function generateToken(req, res) {
-  const { username } = req.body;
+const VALID_USERNAME = "admin";
+const VALID_PASSWORD = "password";
 
-  if (!username) {
+export function generateToken(req, res) {
+  const { username, password } = req.body || {};
+
+  if (!username || !password) {
     return res.status(400).json({
-      success: false,
-      message: "Username is required"
+      message: "Username and password are required"
     });
   }
 
-  const payload = {
-    username
-  };
+  if (username !== VALID_USERNAME || password !== VALID_PASSWORD) {
+    return res.status(401).json({
+      message: "Invalid credentials"
+    });
+  }
 
-  const token = jwt.sign(payload, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_IN
-  });
+  const token = jwt.sign(
+    { username },
+    JWT_SECRET,
+    { expiresIn: JWT_EXPIRES_IN }
+  );
 
-  res.json({
-    success: true,
-    token,
-    expiresIn: JWT_EXPIRES_IN
-  });
+  return res.status(200).json({ token });
 }
