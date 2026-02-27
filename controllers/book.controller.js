@@ -72,16 +72,13 @@ export function updateBook(req, res) {
   console.log("PARAM:", req.params.id);
   console.log("BOOKS:", books);
   const id = req.params.id;
+
   const book = books.find(b => b.id === id);
 
   if (!book) {
-    book = {
-      id,
-      title: "Default",
-      author: "Default",
-      year: null
-    };
-    books.push(book);
+    return res.status(404).json({
+      message: "Book not found"
+    });
   }
 
   const { title, author, year } = req.body || {};
@@ -90,7 +87,7 @@ export function updateBook(req, res) {
   if (author !== undefined) book.author = author;
   if (year !== undefined) book.year = year;
 
-  res.status(200).json(book);
+  return res.status(200).json(book);
 }
 
 /* DELETE */
