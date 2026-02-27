@@ -52,7 +52,7 @@ export function getBooks(req, res) {
 
 /* READ ONE */
 export function getBookById(req, res) {
-  const id = Number(req.params.id);
+  const id = req.params.id;
   const book = books.find(b => b.id === id);
 
   if (!book) {
@@ -67,7 +67,10 @@ export function getBookById(req, res) {
 
 /* UPDATE */
 export function updateBook(req, res) {
-  const id = Number(req.params.id);
+  console.log("BODY:", req.body);
+  console.log("PARAM:", req.params.id);
+  console.log("BOOKS:", books);
+  const id = req.params.id;
   const book = books.find(b => b.id === id);
 
   if (!book) {
@@ -80,7 +83,7 @@ export function updateBook(req, res) {
     books.push(book);
   }
 
-  const { title, author, year } = req.body;
+  const { title, author, year } = req.body || {};
 
   if (title !== undefined) book.title = title;
   if (author !== undefined) book.author = author;
@@ -91,7 +94,7 @@ export function updateBook(req, res) {
 
 /* DELETE */
 export function deleteBook(req, res) {
-  const id = Number(req.params.id);
+  const id = req.params.id;
   const index = books.findIndex(b => b.id === id);
 
   if (index === -1) {
