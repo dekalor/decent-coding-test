@@ -66,37 +66,21 @@ export function getBookById(req, res) {
 
 /* UPDATE */
 export function updateBook(req, res) {
-  const index = books.findIndex(b => b.id === req.params.id);
+  const book = books.find(b => b.id === req.params.id);
 
-  if (index === -1) {
+  if (!book) {
     return res.status(404).json({
-      success: false,
       message: "Book not found"
     });
   }
 
   const { title, author, year } = req.body;
 
-  if (!title || !author) {
-    return res.status(400).json({
-      success: false,
-      message: "Title and author are required"
-    });
-  }
+  if (title !== undefined) book.title = title;
+  if (author !== undefined) book.author = author;
+  if (year !== undefined) book.year = year;
 
-  books[index] = {
-    ...books[index],
-    title,
-    author,
-    year: year || null,
-    updatedAt: new Date()
-  };
-
-  res.status(200).json({
-    success: true,
-    message: "Book updated successfully",
-    data: books[index]
-  });
+  res.status(200).json(book);
 }
 
 /* DELETE */
