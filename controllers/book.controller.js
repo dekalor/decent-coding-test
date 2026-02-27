@@ -1,5 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
-import { books } from "../data/stores.js";
+import { books, getNextId } from "../data/store.js";
 
 /* CREATE */
 export function createBook(req, res) {
@@ -13,7 +12,7 @@ export function createBook(req, res) {
   }
 
   const newBook = {
-    id: uuidv4(),
+    id: getNextId().toString(),
     title,
     author,
     year: year || null,
