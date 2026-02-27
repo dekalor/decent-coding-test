@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Health Check
 router.get("/ping", (req, res) => {
-  res.json({ success: true, message: "pong" });
+  res.status(200).json({ success: true });
 });
 
 // Echo
