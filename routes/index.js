@@ -11,7 +11,7 @@ router.get("/ping", (req, res) => {
 
 // Echo
 router.post("/echo", (req, res) => {
-  res.json({ you_sent: req.body });
+  res.json(req.body);
 });
 
 router.use(bookRoutes);
