@@ -22,11 +22,7 @@ export function createBook(req, res) {
 
   books.push(newBook);
 
-  res.status(201).json({
-    success: true,
-    message: "Book created successfully",
-    data: newBook
-  });
+  res.status(201).json(newBook);
 }
 
 /* READ ALL (Protected + Search + Pagination) */
@@ -48,14 +44,11 @@ export function getBooks(req, res) {
   const endIndex = startIndex + limitNumber;
 
   const paginated = result.slice(startIndex, endIndex);
+  // total: result.length,
+  //   page: pageNumber,
+  //   limit: limitNumber,
 
-  res.json({
-    success: true,
-    total: result.length,
-    page: pageNumber,
-    limit: limitNumber,
-    data: paginated
-  });
+  res.json(paginated);
 }
 
 /* READ ONE */
