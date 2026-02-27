@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 
 router.post("/books", createBook);
-router.get("/books", getBooks); //authMiddleware
+router.get("/books", authMiddleware, getBooks);
 router.get("/books/:id", getBookById);
 router.put("/books/:id", updateBook);
 router.delete("/books/:id", deleteBook);
