@@ -114,7 +114,7 @@ export function deleteBook(req, res) {
   const deleted = books[index];
   books.splice(index, 1);
 
-  res.json({
+  res.status(200).json({
     success: true,
     message: "Book deleted successfully",
     data: deleted
